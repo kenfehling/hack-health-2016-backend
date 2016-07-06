@@ -1,3 +1,5 @@
+var HOST = 'https://hackhealth.herokuapp.com';
+
 /*!
  * jQuery Form Plugin
  * version: 3.51.0-2014.06.20
@@ -1278,7 +1280,7 @@ function log() {
 
 function setupForm($form, path, callback) {
     var options = {
-        url: window.location.host + path,
+        url: HOST + path,
         success: callback
     };
     //$form.on('submit', function(e) {

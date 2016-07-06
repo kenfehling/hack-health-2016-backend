@@ -1276,6 +1276,10 @@ function log() {
 
 }));
 
-function setupForm($form, callback) {
-    $form.ajaxForm(callback);
+function setupForm($form, path, callback) {
+    var options = {
+        url: path,
+        success: callback
+    };
+    $form.ajaxForm(options);
 }

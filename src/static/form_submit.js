@@ -1281,5 +1281,8 @@ function setupForm($form, path, callback) {
         url: path,
         success: callback
     };
+    $form.on('submit', function(e) {
+        e.preventDefault();
+    });
     $form.ajaxForm(options);
 }

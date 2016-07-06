@@ -8,6 +8,7 @@ def hello_world():
     name = request.form['name']
     email = request.form['email']
     resume = request.form['resume']
+    return {"success": True}
 
 
 @app.route('/<path:path>')

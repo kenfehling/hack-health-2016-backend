@@ -1278,7 +1278,7 @@ function log() {
 
 function setupForm($form, path, callback) {
     var options = {
-        url: path,
+        url: window.location.host + path,
         success: callback
     };
     //$form.on('submit', function(e) {

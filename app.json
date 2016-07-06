@@ -1,0 +1,10 @@
+{
+  "name": "HackHealth",
+  "image": "heroku/python",
+  "addons": [
+    "mongolab"
+  ],
+  "buildpacks": [
+      "heroku/python"
+  ]
+}

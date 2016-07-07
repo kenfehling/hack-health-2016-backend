@@ -4,3 +4,4 @@ flask-cors==2.1.2
 pytest==2.9.2
 pytest-watch==4.1.0
 pymongo==3.2.2
+werkzeug==0.11.10

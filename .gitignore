@@ -1,2 +1,5 @@
 .idea/
 *.pyc
+src/__pycache__/
+test/__pycache__/
+test/.cache/

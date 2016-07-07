@@ -11,7 +11,7 @@ def get_mongo_uri():
         return 'mongodb://localhost:27017/'
 
 client = MongoClient(get_mongo_uri())
-db = client.test
+db = client.heroku_lwc4tt1r
 
 
 def save_record(name, email, resume):

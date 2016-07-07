@@ -6,17 +6,21 @@
     <table>
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Resume</th>
+                {% for field in fields %}
+                    <th>{{field}}</th>
+                {% endfor %}
+                <th></th>
             </tr>
         </thead>
-        {% for response in responses %}
-            <tr>
-                <td>{{response.name}}</td>
-                <td>{{response.email}}</td>
-                <td><a href="/response/{{response._id}}/resume">Resume</a></td>
-            </tr>
-        {% endfor %}
+        <tbody>
+            {% for response in responses %}
+                <tr>
+                    {% for field in fields %}
+                        <td>{{response[field]}}</td>
+                    {% endfor %}
+                    <td><a href="/response/{{response._id}}/resume">Resume</a></td>
+                </tr>
+            {% endfor %}
+        </tbody>
     </table>
 {% endblock %}

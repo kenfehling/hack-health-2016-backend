@@ -1,8 +1,16 @@
+import os
 from bson import ObjectId
 from pymongo import MongoClient
 from bson.binary import Binary
 
-client = MongoClient('mongodb://localhost:27017/')
+
+def get_mongo_uri():
+    if 'MONGODB_URI' in os.environ:
+        return os.environ['MONGODB_URI']
+    else:
+        return 'mongodb://localhost:27017/'
+
+client = MongoClient(get_mongo_uri())
 db = client.test
 
 

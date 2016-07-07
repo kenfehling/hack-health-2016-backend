@@ -1,15 +1,11 @@
 from pymongo import MongoClient
-from bson import BSON
-from bson.binary import Binary, UUIDLegacy, STANDARD
-from bson.codec_options import CodecOptions
-from werkzeug.utils import secure_filename
+from bson.binary import Binary
 
 client = MongoClient('mongodb://localhost:27017/')
 db = client.test
 
 
 def save_record(name, email, resume):
-    #resume_filename = secure_filename(resume.filename)
     data = {
         'name': name,
         'email': email,

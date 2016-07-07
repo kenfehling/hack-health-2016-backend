@@ -1,8 +1,9 @@
-from flask import Flask, request
+from flask import Flask, request, render_template, send_from_directory
 from flask.ext.cors import CORS, cross_origin
-from src.db import save_record
+from files import save_to_temp_file
+from src.db import save_record, get_records, get_record
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf'}
+ALLOWED_EXTENSIONS = {'pdf'}
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
@@ -18,7 +19,6 @@ def allowed_file(filename):
 def register():
     name = request.form['name']
     email = request.form['email']
-
     resume = request.files['resume']
     if name and email and resume and allowed_file(resume.filename):
         save_record(name, email, resume)
@@ -26,9 +26,21 @@ def register():
     return 'OK' #{"success": True}
 
 
-@app.route('/<path:path>')
-def static_proxy(path):
-    return app.send_static_file(path)
+@app.route("/")
+def home():
+    return render_template('index.html', title="Home", responses=get_records())
+
+
+@app.route("/response/<id>/resume")
+def resume(id):
+    resume = get_record(id)['resume']
+    save_to_temp_file(resume, 'resume.pdf')
+    return send_from_directory('/tmp', 'resume.pdf')
+
+
+@app.route('/pixel.gif')
+def pixel():
+    return app.send_static_file('pixel.gif')
 
 
 if __name__ == '__main__':

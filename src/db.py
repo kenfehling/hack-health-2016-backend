@@ -1,3 +1,4 @@
+from bson import ObjectId
 from pymongo import MongoClient
 from bson.binary import Binary
 
@@ -16,3 +17,7 @@ def save_record(name, email, resume):
 
 def get_records():
     return [doc for doc in db.responses.find()]
+
+
+def get_record(id):
+    return db.responses.find_one({'_id': ObjectId(id)})

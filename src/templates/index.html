@@ -1,0 +1,19 @@
+{% extends 'base/layout.html' %}
+{% block body %}
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Resume</th>
+            </tr>
+        </thead>
+        {% for response in responses %}
+            <tr>
+                <td>{{response.name}}</td>
+                <td>{{response.email}}</td>
+                <td><a href="/response/{{response._id}}/resume">Resume</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

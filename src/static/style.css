@@ -7,11 +7,12 @@ body {
 
 table {
     border-spacing: 0;
+    border: thin solid #CCC;
     margin: auto;
+    width: 100%;
 }
 
-table td {
+table th, table td {
     padding: 4px;
-    border-top: thin solid #CCC;
-    text-align: left;
+    border: thin solid #CCC;
 }

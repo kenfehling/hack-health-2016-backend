@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, send_from_directory
 from flask.ext.cors import CORS, cross_origin
+
 from config import FIELDS
-from files import save_to_temp_file, create_zip_from_data, create_temp_csv, save_to_temp_files, create_zip_from_files
+from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_zip_from_files
 from src.db import save_record, get_records, get_record
 from utils import records_without_resumes
 
@@ -19,11 +20,9 @@ def allowed_file(filename):
 @app.route('/register', methods=['POST'])
 @cross_origin()
 def register():
-    name = request.form['name']
-    email = request.form['email']
     resume = request.files['resume']
-    if name and email and resume and allowed_file(resume.filename):
-        save_record(name, email, resume)
+    if resume and allowed_file(resume.filename):
+        save_record(request.form, resume)
 
     return 'OK' #{"success": True}
 

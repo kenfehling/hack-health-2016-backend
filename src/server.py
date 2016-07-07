@@ -1,7 +1,8 @@
 from flask import Flask, request, render_template, send_from_directory
 from flask.ext.cors import CORS, cross_origin
-from files import save_to_temp_file
+from files import save_to_temp_file, create_zip_from_data, create_temp_csv, save_to_temp_files, create_zip_from_files
 from src.db import save_record, get_records, get_record
+from utils import records_without_resumes
 
 ALLOWED_EXTENSIONS = {'pdf'}
 app = Flask(__name__)
@@ -36,6 +37,17 @@ def resume(id):
     resume = get_record(id)['resume']
     save_to_temp_file(resume, 'resume.pdf')
     return send_from_directory('/tmp', 'resume.pdf')
+
+
+@app.route("/archive")
+def archive():
+    records = get_records()
+    resumes = [record['resume'] for record in records]
+    data = records_without_resumes(records)
+    csv = create_temp_csv(data, 'spreadsheet.csv')
+    resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/')
+    create_zip_from_files(resume_files + [csv], 'archive.zip')
+    return send_from_directory('/tmp', 'archive.zip')
 
 
 @app.route('/pixel.gif')

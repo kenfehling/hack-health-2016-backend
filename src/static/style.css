@@ -1,0 +1,16 @@
+
+body {
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+    font-size: 14px;
+    text-align: center;
+}
+
+table {
+    border-spacing: 0;
+    margin: auto;
+}
+
+table td {
+    padding: 4px;
+    border-top: thin solid #999;
+}

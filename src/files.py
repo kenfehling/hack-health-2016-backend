@@ -20,7 +20,8 @@ def save_to_temp_file(data, filename, folder=''):
 
 
 def save_to_temp_files(data_list, extension, folder=''):
-    return [save_to_temp_file(data, '%d.%s' % (i, extension), folder) for i, data in enumerate(data_list)]
+    # Start numbering files at 2 so they match the spreadsheet row numbers
+    return [save_to_temp_file(data, '%d.%s' % (i + 2, extension), folder) for i, data in enumerate(data_list)]
 
 
 def create_zip_from_files(files, filename):

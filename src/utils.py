@@ -2,12 +2,12 @@ from collections import OrderedDict
 from config import FIELDS
 
 
-def record_without_resume(record):
+def record_with_only_form_fields(record):
     d = OrderedDict()
     for field in FIELDS:
         d[field] = record[field]
     return d
 
 
-def records_without_resumes(records):
-    return [record_without_resume(record) for record in records]
+def records_with_only_form_fields(records):
+    return [record_with_only_form_fields(record) for record in records]

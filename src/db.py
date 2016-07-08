@@ -2,7 +2,7 @@ import os
 from bson import ObjectId
 from pymongo import MongoClient
 from bson.binary import Binary
-from utils import record_without_resume
+from utils import record_with_only_form_fields
 
 
 def get_mongo_uri():
@@ -16,7 +16,7 @@ db = client.heroku_lwc4tt1r
 
 
 def save_record(form_data, resume):
-    data = record_without_resume(form_data)
+    data = record_with_only_form_fields(form_data)
     data['resume'] = Binary(resume.read())
     db.responses.insert_one(data)
 

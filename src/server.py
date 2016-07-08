@@ -1,10 +1,9 @@
 from flask import Flask, request, render_template, send_from_directory
 from flask.ext.cors import CORS, cross_origin
-
 from config import FIELDS
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_zip_from_files
 from src.db import save_record, get_records, get_record
-from utils import records_without_resumes
+from utils import records_with_only_form_fields
 
 ALLOWED_EXTENSIONS = {'pdf'}
 app = Flask(__name__)
@@ -43,7 +42,7 @@ def resume(id):
 def archive():
     records = get_records()
     resumes = [record['resume'] for record in records]
-    data = records_without_resumes(records)
+    data = records_with_only_form_fields(records)
     csv = create_temp_csv(data, 'spreadsheet.csv')
     resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/')
     create_zip_from_files(resume_files + [csv], 'archive.zip')

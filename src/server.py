@@ -12,8 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
 
 @app.route('/register', methods=['POST'])
@@ -23,7 +22,7 @@ def register():
     if resume and allowed_file(resume.filename):
         save_record(request.form, resume)
 
-    return 'OK' #{"success": True}
+    return 'OK'  # {"success": True}
 
 
 @app.route("/")

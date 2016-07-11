@@ -1,7 +1,7 @@
 import os
 from filecmp import cmp
 import pytest
-from src.files import save_to_temp_file, create_zip_from_files, create_zip_from_data
+from src.files import save_to_temp_file, create_temp_zip_from_files, create_temp_zip_from_data
 
 TEST_FILE = 'files/Resume.pdf'
 OUTPUT_PATH = '/tmp/'
@@ -32,12 +32,12 @@ def test_save_to_temp_file():
 
 
 def test_create_zip_from_files():
-    create_zip_from_files([TEST_FILE], OUTPUT_ZIP_NAME)
+    create_temp_zip_from_files([TEST_FILE], OUTPUT_ZIP_NAME)
     assert os.path.isfile(OUTPUT_ZIP)
 
 
 def test_create_zip_from_data():
     with open(TEST_FILE, "rb") as input_file:
         data = input_file.read()
-        create_zip_from_data([data], 'pdf', OUTPUT_ZIP_NAME)
+        create_temp_zip_from_data([data], 'pdf', OUTPUT_ZIP_NAME)
     assert os.path.isfile(OUTPUT_ZIP)

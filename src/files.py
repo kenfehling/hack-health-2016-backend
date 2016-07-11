@@ -24,15 +24,15 @@ def save_to_temp_files(data_list, extension, folder=''):
     return [save_to_temp_file(data, '%d.%s' % (i + 2, extension), folder) for i, data in enumerate(data_list)]
 
 
-def create_zip_from_files(files, filename):
+def create_temp_zip_from_files(files, filename):
     with ZipFile('/tmp/' + filename, 'w') as z:
         for file in files:
             z.write(file)
 
 
-def create_zip_from_data(data_list, extension, filename, folder=''):
+def create_temp_zip_from_data(data_list, extension, filename, folder=''):
     files = save_to_temp_files(data_list, extension, folder)
-    return create_zip_from_files(files, filename)
+    return create_temp_zip_from_files(files, filename)
 
 
 def create_temp_csv(data, filename):

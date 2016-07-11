@@ -1,7 +1,7 @@
 from flask import Flask, request, render_template, send_from_directory
 from flask.ext.cors import CORS, cross_origin
 from config import FIELDS
-from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_zip_from_files
+from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
 from src.db import save_record, get_records, get_record
 from utils import records_with_only_form_fields
 
@@ -44,7 +44,7 @@ def archive():
     data = records_with_only_form_fields(records)
     csv = create_temp_csv(data, 'spreadsheet.csv')
     resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/')
-    create_zip_from_files(resume_files + [csv], 'archive.zip')
+    create_temp_zip_from_files(resume_files + [csv], 'archive.zip')
     return send_from_directory('/tmp', 'archive.zip')
 
 

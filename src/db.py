@@ -1,6 +1,6 @@
 import os
-from bson import ObjectId
 from pymongo import MongoClient
+from bson import ObjectId
 from bson.binary import Binary
 from utils import record_with_only_form_fields
 

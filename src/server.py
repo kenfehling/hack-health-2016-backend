@@ -27,7 +27,9 @@ def register():
 
 @app.route("/")
 def home():
-    return render_template('index.html', title="Home", responses=get_records(), fields=FIELDS)
+    records = get_records()
+    emails = ','.join(set([r['email'] for r in records]))
+    return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
 
 
 @app.route("/response/<id>/resume")

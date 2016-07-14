@@ -8,13 +8,13 @@ table {
     border-spacing: 0;
     border: thin solid #DDD;
     width: 100%;
-    background-color: #EEE;
+    background-color: #F6F6F6;
     border-radius: 4px;
 }
 
 table th, table td {
     padding: 2px;
-    border: thin solid #DDD;
+    border: thin solid #E6E6E6;
 }
 
 table th {

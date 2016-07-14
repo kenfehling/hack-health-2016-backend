@@ -9,3 +9,5 @@ FIELDS = [
     'theme',
     'idea'
 ]
+
+ALLOWED_RESUME_EXTENSIONS = {'pdf'}

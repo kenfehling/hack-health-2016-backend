@@ -1,28 +1,30 @@
-from flask import Flask, request, render_template, send_from_directory
+from flask import Flask, request, render_template, send_from_directory, jsonify
 from flask.ext.cors import CORS, cross_origin
-from config import FIELDS
+from config import FIELDS, ALLOWED_RESUME_EXTENSIONS
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
 from src.db import save_record, get_records, get_record
-from utils import records_with_only_form_fields
+from utils import records_with_only_form_fields, allowed_file
 
-ALLOWED_EXTENSIONS = {'pdf'}
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
-def allowed_file(filename):
-    return '.' in filename and filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
 @app.route('/register', methods=['POST'])
 @cross_origin()
 def register():
-    resume = request.files['resume']
-    if resume and allowed_file(resume.filename):
-        save_record(request.form, resume)
 
-    return 'OK'  # {"success": True}
+    def success_fn():
+        return jsonify(**{"success": True})
+
+    def failure_fn(error):
+        return jsonify(**{"success": False, "error": error})
+
+    resume = request.files['resume']
+    if resume and allowed_file(resume.filename, ALLOWED_RESUME_EXTENSIONS):
+        return save_record(request.form, resume, success_fn=success_fn, failure_fn=failure_fn)
+    else:
+        return failure_fn("Please upload a resume in %s format" % '/'.join(ALLOWED_RESUME_EXTENSIONS))
 
 
 @app.route("/")
@@ -50,6 +52,7 @@ def archive():
     return send_from_directory('/tmp', 'archive.zip')
 
 
+# Loading this image will wake up Heroku from the frontend site so it's ready
 @app.route('/pixel.gif')
 def pixel():
     return app.send_static_file('pixel.gif')

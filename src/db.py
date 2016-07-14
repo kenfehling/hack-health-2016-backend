@@ -15,15 +15,27 @@ client = MongoClient(get_mongo_uri())
 db = client.heroku_lwc4tt1r
 
 
-def save_record(form_data, resume):
-    data = record_with_only_form_fields(form_data)
-    data['resume'] = Binary(resume.read())
-    db.responses.insert_one(data)
-
-
 def get_records():
     return [doc for doc in db.responses.find()]
 
 
 def get_record(id):
     return db.responses.find_one({'_id': ObjectId(id)})
+
+
+def get_record_by_email(email):
+    return db.responses.find_one({'email': email})
+
+
+def check_email_exists(email):
+    return get_record_by_email(email) is not None
+
+
+def save_record(form_data, resume, success_fn, failure_fn):
+    data = record_with_only_form_fields(form_data)
+    if check_email_exists(data['email']):
+        return failure_fn("Hey, you're already signed up")
+    else:
+        data['resume'] = Binary(resume.read())
+        db.responses.insert_one(data)
+        return success_fn()

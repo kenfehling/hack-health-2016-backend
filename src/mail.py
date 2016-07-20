@@ -10,7 +10,8 @@ def send_email(to, subject, context):
     return requests.post(
         "https://api.mailgun.net/v3/%s/messages" % MAILGUN_DOMAIN,
         auth=("api", MAILGUN_API_KEY),
-        data={"from": "WiCS (Women in Computer Science) <mailgun@%s>" % MAILGUN_DOMAIN,
+        data={"from": "HackHealth <mailgun@%s>" % MAILGUN_DOMAIN,
+              "h:Reply-To": "sbu.wics@gmail.com",
               "to": to,
               "subject": subject,
               "html": template.render(**context)})

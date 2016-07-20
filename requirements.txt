@@ -5,4 +5,5 @@ pytest==2.9.2
 pytest-watch==4.1.0
 pymongo==3.2.2
 requests==2.10.0
+jinja2==2.8
 python-dotenv==0.5.1

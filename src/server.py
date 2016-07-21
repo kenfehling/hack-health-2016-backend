@@ -4,7 +4,7 @@ from config import FIELDS, ALLOWED_RESUME_EXTENSIONS
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
 from mail import send_email
 from src.db import save_record, get_records, get_record
-from utils import get_only_form_fields_for_all, allowed_file
+from utils import only_form_fields_for_all, allowed_file
 
 app = Flask(__name__)
 CORS(app)
@@ -47,7 +47,7 @@ def resume(id):
 def archive():
     records = get_records()
     resumes = [record['resume'] for record in records]
-    data = get_only_form_fields_for_all(records)
+    data = only_form_fields_for_all(records)
     csv = create_temp_csv(data, 'spreadsheet.csv')
     resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/')
     create_temp_zip_from_files(resume_files + [csv], 'archive.zip')

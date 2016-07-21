@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 from bson import ObjectId
 from bson.binary import Binary
-from utils import record_with_only_form_fields
+from utils import get_only_form_fields
 
 
 def get_mongo_uri():
@@ -32,7 +32,7 @@ def check_email_exists(email):
 
 
 def save_record(form_data, resume, success_fn, failure_fn):
-    data = record_with_only_form_fields(form_data)
+    data = get_only_form_fields(form_data)
     if check_email_exists(data['email']):
         return failure_fn("Hey, you're already signed up")
     else:

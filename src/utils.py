@@ -9,7 +9,7 @@ def get_only_form_fields(record):
     return d
 
 
-def records_with_only_form_fields(records):
+def get_only_form_fields_for_all(records):
     return [get_only_form_fields(record) for record in records]
 
 

@@ -2,6 +2,7 @@ from flask import Flask, request, render_template, send_from_directory, jsonify
 from flask.ext.cors import CORS, cross_origin
 from config import FIELDS, ALLOWED_RESUME_EXTENSIONS
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
+from mail import send_email
 from src.db import save_record, get_records, get_record
 from utils import records_with_only_form_fields, allowed_file
 
@@ -14,7 +15,8 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 @cross_origin()
 def register():
 
-    def success_fn():
+    def success_fn(data):
+        send_email(data['email'], {'name': data['name']})
         return jsonify(**{"success": True})
 
     def failure_fn(error):

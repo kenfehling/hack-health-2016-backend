@@ -38,4 +38,4 @@ def save_record(form_data, resume, success_fn, failure_fn):
     else:
         data['resume'] = Binary(resume.read())
         db.responses.insert_one(data)
-        return success_fn()
+        return success_fn(form_data)

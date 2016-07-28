@@ -1,6 +1,7 @@
-from flask import Flask, request, render_template, send_from_directory, jsonify
+from functools import wraps
+from flask import Flask, request, Response, render_template, send_from_directory, jsonify
 from flask.ext.cors import CORS, cross_origin
-from config import FIELDS, ALLOWED_RESUME_EXTENSIONS
+from config import FIELDS, ALLOWED_RESUME_EXTENSIONS, USERNAME, PASSWORD
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
 from mail import send_email
 from src.db import save_record, get_records, get_record
@@ -11,10 +12,31 @@ CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
 
+def check_auth(username, password):
+    return username == USERNAME and password == PASSWORD
+
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+        'Could not verify your access level for that URL.\n'
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    return decorated
+
+
 @app.route('/register', methods=['POST'])
 @cross_origin()
 def register():
-
     def success_fn(data):
         send_email(data['email'], {'name': data['name']})
         return jsonify(**{"success": True})
@@ -30,6 +52,7 @@ def register():
 
 
 @app.route("/")
+@requires_auth
 def home():
     records = get_records()
     emails = ','.join(set([r['email'] for r in records]))
@@ -37,6 +60,7 @@ def home():
 
 
 @app.route("/response/<id>/resume")
+@requires_auth
 def resume(id):
     resume = get_record(id)['resume']
     save_to_temp_file(resume, 'resume.pdf')
@@ -44,6 +68,7 @@ def resume(id):
 
 
 @app.route("/archive")
+@requires_auth
 def archive():
     records = get_records()
     resumes = [record['resume'] for record in records]

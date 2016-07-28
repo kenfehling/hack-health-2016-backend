@@ -39,3 +39,7 @@ def save_record(form_data, resume, success_fn, failure_fn):
         data['resume'] = Binary(resume.read())
         db.responses.insert_one(data)
         return success_fn(form_data)
+
+
+def delete_record(id):
+    db.responses.delete_one({'_id': id})

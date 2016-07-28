@@ -59,6 +59,12 @@ def home():
     return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
 
 
+@app.route("/response/<id>", methods=['DELETE'])
+@requires_auth
+def delete(id):
+    return 'Not implemented'
+
+
 @app.route("/response/<id>/resume")
 @requires_auth
 def resume(id):

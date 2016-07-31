@@ -11,7 +11,3 @@ def only_form_fields(record):
 
 def only_form_fields_for_all(records):
     return [only_form_fields(record) for record in records]
-
-
-def allowed_file(filename, allowed_extensions):
-    return '.' in filename and filename.rsplit('.', 1)[1] in allowed_extensions

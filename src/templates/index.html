@@ -19,7 +19,11 @@
                     {% for field in fields %}
                         <td>{{response[field]}}</td>
                     {% endfor %}
-                    <td><a href="/response/{{response._id}}/resume">Resume</a></td>
+                    <td>
+                        {% if response.resume %}
+                            <a href="/response/{{response._id}}/resume">Resume</a>
+                        {% endif %}
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>

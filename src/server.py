@@ -5,7 +5,7 @@ from config import FIELDS, ALLOWED_RESUME_EXTENSIONS, USERNAME, PASSWORD
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files
 from mail import send_email
 from src.db import save_record, get_records, get_record
-from utils import only_form_fields_for_all, allowed_file
+from utils import only_form_fields_for_all
 
 app = Flask(__name__)
 CORS(app)
@@ -44,17 +44,18 @@ def register():
     def failure_fn(error):
         return jsonify(**{"success": False, "error": error})
 
-    resume = request.files['resume']
-    if resume and allowed_file(resume.filename, ALLOWED_RESUME_EXTENSIONS):
-        return save_record(request.form, resume, success_fn=success_fn, failure_fn=failure_fn)
-    else:
-        return failure_fn("Please upload a resume in %s format" % '/'.join(ALLOWED_RESUME_EXTENSIONS))
+    responses = request.form.copy()
+    responses['diet'] = request.form.getlist('diet')  # Get list of all dietary restrictions given
+    resume = request.files['resume'] if 'resume' in request.files else None
+    return save_record(responses, resume, success_fn=success_fn, failure_fn=failure_fn)
 
 
 @app.route("/")
 @requires_auth
 def home():
     records = get_records()
+    for record in records:
+        record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions array into a string with commas
     emails = ','.join(set([r['email'] for r in records]))
     return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
 

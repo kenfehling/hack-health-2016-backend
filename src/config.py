@@ -11,10 +11,12 @@ FIELDS = [
     'gender',
     'year',
     'tshirt',
+    'diet',
     'first_hackathon',
     'num_hackathons',
     'theme',
-    'idea'
+    'idea',
+    'other'
 ]
 
 ALLOWED_RESUME_EXTENSIONS = {'pdf'}

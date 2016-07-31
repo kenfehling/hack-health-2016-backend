@@ -36,7 +36,8 @@ def save_record(form_data, resume, success_fn, failure_fn):
     if check_email_exists(data['email']):
         return failure_fn("Hey, you're already signed up")
     else:
-        data['resume'] = Binary(resume.read())
+        if resume:
+            data['resume'] = Binary(resume.read())
         db.responses.insert_one(data)
         return success_fn(form_data)
 

@@ -19,8 +19,6 @@ FIELDS = [
     'other'
 ]
 
-ALLOWED_RESUME_EXTENSIONS = {'pdf'}
-
 MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']
 MAILGUN_PUBLIC_KEY = os.environ['MAILGUN_PUBLIC_KEY']
@@ -31,3 +29,5 @@ MAILGUN_SMTP_SERVER = os.environ['MAILGUN_SMTP_SERVER']
 
 USERNAME = os.environ['USERNAME']
 PASSWORD = os.environ['PASSWORD']
+
+NOTE = 'The resume file names correspond to the rows in the spreadsheet\n(2.pdf is the resume for row 2, etc.)'

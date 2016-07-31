@@ -19,9 +19,9 @@ def save_to_temp_file(data, filename, folder=''):
     return file
 
 
-def save_to_temp_files(data_list, extension, folder=''):
-    # Start numbering files at 2 so they match the spreadsheet row numbers
-    return [save_to_temp_file(data, '%d.%s' % (i + 2, extension), folder) for i, data in enumerate(data_list)]
+def save_to_temp_files(data_list, extension, folder='', filenames=None):
+    filenames = filenames if filenames is not None else range(1, len(data_list) + 1)
+    return [save_to_temp_file(data, '%d.%s' % (filenames[i], extension), folder) for i, data in enumerate(data_list)]
 
 
 def create_temp_zip_from_files(files, filename):
@@ -42,4 +42,11 @@ def create_temp_csv(data, filename):
         csv_writer.writerow(FIELDS)
         for row in data:
             csv_writer.writerow(row.values())
+    return file
+
+
+def create_temp_txt(text, filename):
+    file = '/tmp/' + filename
+    with open(file, 'w') as f:
+        f.write(text)
     return file

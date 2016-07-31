@@ -78,7 +78,7 @@ def resume(id):
 @requires_auth
 def archive():
     records = get_records()
-    resumes = [record['resume'] for record in records]
+    resumes = [record['resume'] for record in records if 'resume' in record]
     data = only_form_fields_for_all(records)
     csv = create_temp_csv(data, 'spreadsheet.csv')
     resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/')

@@ -60,12 +60,6 @@ def home():
     return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
 
 
-@app.route("/response/<id>", methods=['DELETE'])
-@requires_auth
-def delete(id):
-    return 'Not implemented'
-
-
 @app.route("/response/<id>/resume")
 @requires_auth
 def resume(id):
@@ -86,6 +80,12 @@ def archive():
     readme = create_temp_txt(NOTE, 'README.txt')
     create_temp_zip_from_files(resume_files + [csv] + [readme], 'archive.zip')
     return send_from_directory('/tmp', 'archive.zip')
+
+
+@app.route("/response/<id>", methods=['DELETE'])
+@requires_auth
+def delete(id):
+    return 'Not implemented'
 
 
 # Loading this image will wake up Heroku from the frontend site so it's ready

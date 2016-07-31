@@ -55,7 +55,7 @@ def register():
 def home():
     records = get_records()
     for record in records:
-        record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions array into a string with commas
+        record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions list into a string with commas
     emails = ','.join(set([r['email'] for r in records]))
     return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
 

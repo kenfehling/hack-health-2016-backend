@@ -30,4 +30,4 @@ MAILGUN_SMTP_SERVER = os.environ['MAILGUN_SMTP_SERVER']
 USERNAME = os.environ['USERNAME']
 PASSWORD = os.environ['PASSWORD']
 
-NOTE = 'The resume file names correspond to the rows in the spreadsheet\n(2.pdf is the resume for row 2, etc.)'
+NOTE = 'The resume filenames contain the row numbers in the spreadsheet\n(Shan_Liu-2.pdf is the resume for row 2, etc.)'

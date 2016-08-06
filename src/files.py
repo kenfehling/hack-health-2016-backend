@@ -21,7 +21,7 @@ def save_to_temp_file(data, filename, folder=''):
 
 def save_to_temp_files(data_list, extension, folder='', filenames=None):
     filenames = filenames if filenames is not None else range(1, len(data_list) + 1)
-    return [save_to_temp_file(data, '%d.%s' % (filenames[i], extension), folder) for i, data in enumerate(data_list)]
+    return [save_to_temp_file(data, '%s.%s' % (filenames[i], extension), folder) for i, data in enumerate(data_list)]
 
 
 def create_temp_zip_from_files(files, filename):

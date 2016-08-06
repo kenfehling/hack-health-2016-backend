@@ -72,11 +72,11 @@ def resume(id):
 @requires_auth
 def archive():
     records = get_records()
-    resumes = [record['resume'] for record in records if 'resume' in record]
-    resume_indexes = [i + 2 for i, record in enumerate(records) if 'resume' in record]
+    resumes = [r['resume'] for r in records if 'resume' in r]
+    resume_names = ["%s-%i" % (r['name'].replace(' ', '_'), i + 2) for i, r in enumerate(records) if 'resume' in r]
     data = only_form_fields_for_all(records)
     csv = create_temp_csv(data, 'spreadsheet.csv')
-    resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/', filenames=resume_indexes)
+    resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/', filenames=resume_names)
     readme = create_temp_txt(NOTE, 'README.txt')
     create_temp_zip_from_files(resume_files + [csv] + [readme], 'archive.zip')
     return send_from_directory('/tmp', 'archive.zip')

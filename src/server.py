@@ -1,11 +1,11 @@
 from functools import wraps
 from flask import Flask, request, Response, render_template, send_from_directory, jsonify
 from flask.ext.cors import CORS, cross_origin
-from config import FIELDS, USERNAME, PASSWORD, NOTE
+from config import OUTPUT_FIELDS, USERNAME, PASSWORD, NOTE
 from files import save_to_temp_file, create_temp_csv, save_to_temp_files, create_temp_zip_from_files, create_temp_txt
 from mail import send_email
 from src.db import save_record, get_records, get_record
-from utils import only_form_fields_for_all
+from utils import only_fields_for_all
 
 app = Flask(__name__)
 CORS(app)
@@ -55,7 +55,7 @@ def register():
 def home():
     records = get_records()
     emails = ','.join(set([r['email'] for r in records]))
-    return render_template('index.html', title="Home", responses=records, fields=FIELDS, emails=emails)
+    return render_template('index.html', title="Home", responses=records, fields=OUTPUT_FIELDS, emails=emails)
 
 
 @app.route("/response/<id>/resume")
@@ -72,7 +72,7 @@ def archive():
     records = get_records()
     resumes = [r['resume'] for r in records if 'resume' in r]
     resume_names = ["%s-%i" % (r['name'].replace(' ', '_'), i + 2) for i, r in enumerate(records) if 'resume' in r]
-    data = only_form_fields_for_all(records)
+    data = only_fields_for_all(records, fields=OUTPUT_FIELDS)
     csv = create_temp_csv(data, 'spreadsheet.csv')
     resume_files = save_to_temp_files(resumes, 'pdf', folder='resumes/', filenames=resume_names)
     readme = create_temp_txt(NOTE, 'README.txt')

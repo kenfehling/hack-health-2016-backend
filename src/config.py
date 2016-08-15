@@ -5,7 +5,7 @@ import os
 dotenv_path = join(dirname(__file__), '..', '.env')
 load_dotenv(dotenv_path)
 
-FIELDS = [
+INPUT_FIELDS = [
     'name',
     'email',
     'gender',
@@ -18,6 +18,8 @@ FIELDS = [
     'idea',
     'other'
 ]
+
+OUTPUT_FIELDS = ['date'] + INPUT_FIELDS
 
 MAILGUN_API_KEY = os.environ['MAILGUN_API_KEY']
 MAILGUN_DOMAIN = os.environ['MAILGUN_DOMAIN']

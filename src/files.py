@@ -1,7 +1,7 @@
 import os
 import csv
 from zipfile import ZipFile
-from src.config import FIELDS
+from src.config import OUTPUT_FIELDS
 
 
 def create_dir(path):
@@ -39,7 +39,7 @@ def create_temp_csv(data, filename):
     file = '/tmp/' + filename
     with open(file, 'w') as f:
         csv_writer = csv.writer(f)
-        csv_writer.writerow(FIELDS)
+        csv_writer.writerow(OUTPUT_FIELDS)
         for row in data:
             csv_writer.writerow(row.values())
     return file

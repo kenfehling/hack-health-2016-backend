@@ -1,13 +1,12 @@
 from collections import OrderedDict
-from config import FIELDS
 
 
-def only_form_fields(record):
+def only_fields(record, fields):
     d = OrderedDict()
-    for field in FIELDS:
+    for field in fields:
         d[field] = record[field]
     return d
 
 
-def only_form_fields_for_all(records):
-    return [only_form_fields(record) for record in records]
+def only_fields_for_all(records, fields):
+    return [only_fields(record, fields) for record in records]

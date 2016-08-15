@@ -2,7 +2,9 @@ import os
 from pymongo import MongoClient
 from bson import ObjectId
 from bson.binary import Binary
-from utils import only_form_fields
+
+from config import INPUT_FIELDS
+from utils import only_fields
 
 
 def get_mongo_uri():
@@ -16,9 +18,10 @@ db = client.heroku_lwc4tt1r
 
 
 def get_records():
-    records = [doc for doc in db.responses.find()]
+    records = [doc for doc in db.responses.find().sort('_id')]
     for record in records:
         record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions list into a string with commas
+        record['date'] = record['_id'].generation_time.strftime('%m/%d %H:%M')
     return records
 
 
@@ -35,7 +38,7 @@ def check_email_exists(email):
 
 
 def save_record(form_data, resume, success_fn, failure_fn):
-    data = only_form_fields(form_data)
+    data = only_fields(form_data, INPUT_FIELDS)
     if check_email_exists(data['email']):
         return failure_fn("Hey, you're already signed up")
     else:

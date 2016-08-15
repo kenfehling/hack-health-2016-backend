@@ -13,15 +13,23 @@ def save_to_temp_file(data, filename, folder=''):
     dir = '/tmp/' + folder
     create_dir(dir)
     file = dir + filename
-    f = open(file, "wb")
-    f.write(data)
-    f.close()
-    return file
+    try:
+        with open(file, "wb") as f:
+            f.write(data)
+            return file
+    except TypeError:
+        try:
+            with open(file, "w") as f:
+                f.write(data)
+                return file
+        except:
+            return None
 
 
 def save_to_temp_files(data_list, extension, folder='', filenames=None):
     filenames = filenames if filenames is not None else range(1, len(data_list) + 1)
-    return [save_to_temp_file(data, '%s.%s' % (filenames[i], extension), folder) for i, data in enumerate(data_list)]
+    files = [save_to_temp_file(data, '%s.%s' % (filenames[i], extension), folder) for i, data in enumerate(data_list)]
+    return [file for file in files if file]
 
 
 def create_temp_zip_from_files(files, filename):

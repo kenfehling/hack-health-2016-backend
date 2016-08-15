@@ -10,6 +10,7 @@ from utils import only_fields_for_all
 app = Flask(__name__)
 CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['DEBUG'] = True
 
 
 def check_auth(username, password):

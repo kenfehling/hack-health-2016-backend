@@ -2,7 +2,7 @@ import os
 from pymongo import MongoClient
 from bson import ObjectId
 from bson.binary import Binary
-
+from pytz import timezone
 from config import INPUT_FIELDS
 from utils import only_fields
 
@@ -21,7 +21,9 @@ def get_records():
     records = [doc for doc in db.responses.find().sort('_id')]
     for record in records:
         record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions list into a string with commas
-        record['date'] = record['_id'].generation_time.strftime('%m/%d %H:%M')
+        date = record['_id'].generation_time
+        local_date = date.astimezone(timezone('America/New_York'))
+        record['date'] = local_date.strftime('%m/%d %H:%M')
     return records
 
 

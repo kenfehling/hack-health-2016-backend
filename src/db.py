@@ -16,7 +16,10 @@ db = client.heroku_lwc4tt1r
 
 
 def get_records():
-    return [doc for doc in db.responses.find()]
+    records = [doc for doc in db.responses.find()]
+    for record in records:
+        record['diet'] = ','.join(record['diet'])  # Turn dietary restrictions list into a string with commas
+    return records
 
 
 def get_record(id):

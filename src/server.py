@@ -45,7 +45,7 @@ def register():
         return jsonify(**{"success": False, "error": error})
 
     responses = request.form.copy()
-    responses['diet'] = request.form.getlist('diet')  # Get list of all dietary restrictions given
+    responses['diet'] = [d for d in request.form.getlist('diet') if d]  # Get list of all dietary restrictions given
     resume = request.files['resume'] if 'resume' in request.files else None
     return save_record(responses, resume, success_fn=success_fn, failure_fn=failure_fn)
 
